@@ -2,6 +2,12 @@ import React from 'react';
 import BodyPart from './BodyPart.js'
 
 const Body = React.createClass({
+	getInitialState: () => {
+		return {
+			
+		}
+	},
+
 	render: () => {
 		return (
 			<div id='bodyDiv'>
