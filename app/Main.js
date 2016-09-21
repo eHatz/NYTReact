@@ -3,12 +3,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Search from './Components/Search.js';
+import Search from './Components/Search';
 
 ReactDOM.render(
-	<div className = 'col-md-12'>
-		<h1>Hello World</h1>
-		<Search/>
-	</div>,
+	<Search/>,
 	document.getElementById('app')
 )
