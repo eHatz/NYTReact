@@ -15,17 +15,41 @@ var Search = React.createClass({
 		
 	},
 	handleClick: function(event) {
-		fetch(queryURLBase + 'hello', {method: 'GET'}).then(function (NYTData) {
+		var query = document.getElementById('articleSearch').value;
+		var resultsDiv = document.getElementById('resultsDiv');
+		resultsDiv.innerHTML = '';
+
+		fetch(queryURLBase + query, {method: 'GET'}).then(function (NYTData) {
 			NYTData.json().then(function(json) {
-				console.log(json.response.docs[0]);
+				var results = json.response.docs;
+				for (var i = 0; i < results.length; i++) {
+					var singleResult = document.createElement( 'div')
+						singleResult.id = i;
+						singleResult.className = 'singleResult';
+						singleResult.innerHTML =  results[i].headline.main;
+
+					resultsDiv.appendChild(singleResult);
+				}
+				
 			});
 		})
 	},
 	render: function() {
 		return (
-			<div id='searchDiv'>
-				<h1>Im the Search! clicks {this.state.clicks}</h1>
-				<button onClick={this.handleClick} className='btn btn-primary'>Search</button>
+			<div className='container'>
+
+				<div className='row'>
+					<div className='col-md-12' id='searchDiv'>
+						<input type='text' id='articleSearch' placeholder='Search Articles'/>
+						<button onClick={this.handleClick} className='btn btn-primary'>Search</button>
+					</div>
+				</div>
+				<div className='row'>
+					<div className='col-md-12' id='resultsDiv'>
+						
+					</div>
+				</div>
+
 			</div>
 		);
 	}
