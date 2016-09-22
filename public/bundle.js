@@ -21500,26 +21500,46 @@
 			};
 		},
 		handleClick: function handleClick(event) {
-			fetch(queryURLBase + 'hello', { method: 'GET' }).then(function (NYTData) {
+			var query = document.getElementById('articleSearch').value;
+			var resultsDiv = document.getElementById('resultsDiv');
+			resultsDiv.innerHTML = '';
+
+			fetch(queryURLBase + query, { method: 'GET' }).then(function (NYTData) {
 				NYTData.json().then(function (json) {
-					console.log(json.response.docs[0]);
+					var results = json.response.docs;
+					for (var i = 0; i < results.length; i++) {
+						var singleResult = document.createElement('div');
+						singleResult.id = i;
+						singleResult.className = 'singleResult';
+						singleResult.innerHTML = results[i].headline.main;
+
+						resultsDiv.appendChild(singleResult);
+					}
 				});
 			});
 		},
 		render: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ id: 'searchDiv' },
+				{ className: 'container' },
 				_react2.default.createElement(
-					'h1',
-					null,
-					'Im the Search! clicks ',
-					this.state.clicks
+					'div',
+					{ className: 'row' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-md-12', id: 'searchDiv' },
+						_react2.default.createElement('input', { type: 'text', id: 'articleSearch', placeholder: 'Search Articles' }),
+						_react2.default.createElement(
+							'button',
+							{ onClick: this.handleClick, className: 'btn btn-primary' },
+							'Search'
+						)
+					)
 				),
 				_react2.default.createElement(
-					'button',
-					{ onClick: this.handleClick, className: 'btn btn-primary' },
-					'Search'
+					'div',
+					{ className: 'row' },
+					_react2.default.createElement('div', { className: 'col-md-12', id: 'resultsDiv' })
 				)
 			);
 		}
